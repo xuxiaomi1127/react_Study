@@ -1,16 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router} from 'react-router-dom'
 import './App.css';
-import routes from './router/router.config'
-import RouterView from './router/router.view'
-
+import RouterConfig from './router/routerConfig'
+import RouterView from './router/routerView'
 
 function App() {
-
-
     return (
         <Router>
-            <RouterView routes={routes}/>
+            <RouterView routes={RouterConfig}/>
         </Router>
     );
 }

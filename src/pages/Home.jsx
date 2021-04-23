@@ -1,13 +1,12 @@
 import { Form, Input, Button, Row, Col, Table } from 'antd';
 import React,{ Component} from 'react';
 import 'antd/dist/antd.min.css';
-import User from './User';
+import RoterView from '../router/routerView';
 import {
     BrowserRouter as Router,
     Route,
     Link
 } from "react-router-dom";
-
 const columns = [
     {
         title: '姓名',
@@ -39,7 +38,7 @@ const dataSource = [];
 
 for (let i = 0; i < 100; i++) {
     let member = {};
-    member.id = `${i}`;
+    member.key = `${i}`;
     member.name = '刘德华-' + (i + 1);
     member.phone = `1387548785${i}`;
     member.age = (i % 2 === 1 ? false : true);
@@ -49,16 +48,21 @@ for (let i = 0; i < 100; i++) {
 }
 
 class Home extends Component{
+    goChild(url) {
+        this.props.history.push({pathname:url})
+    };
     onFinish(values){
         console.log('Success:', values);
     };
     render(){
+        //let location = this.props.childrenRoute.location
+        let {routes} = this.props;
         return (
             <>
                 <Form name="formData" onFinish={this.onFinish} style={{padding:"20px 0 0"}}>
                     <Row>
                         <Col span={10} offset={6}>
-                            <Form.Item name="search">
+                            <Form.Item name="searchContent">
                                 <Input placeholder="请输入搜索内容" size="default" />
                             </Form.Item>
                         </Col>
@@ -70,17 +74,18 @@ class Home extends Component{
                             </Form.Item>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col span={2} offset={22}>
+                            <Form.Item>
+                                <Button type="primary" onClick={this.goChild.bind(this,'/user')}>
+                                    User
+                                </Button>
+                            </Form.Item>
+                        </Col>
+                    </Row>
                 </Form>
-                <Row>
-                    <Col span={2} offset={22}>
-                        <Form.Item name="search">
-                                    <Button type="primary">
-                                        User
-                                    </Button>
-                        </Form.Item>
-                    </Col>
-                </Row>
                 <Table dataSource={dataSource} columns={columns}/>;
+                <RoterView routes={routes}/>
             </>
         );
     }
